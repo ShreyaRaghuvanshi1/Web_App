@@ -24,10 +24,10 @@ pipeline {
                 script {
                     sh "npm i -g recursive-install"
                     sh "npm-recursive-install --rootDir=src"
-                    dir("src/books/create") {
+                    dir("src/create") {
                         sh "npm test"
                     }
-                    dir("src/books/get-all") {
+                    dir("src/get-all") {
                         sh "npm test"
                     }
                 }
