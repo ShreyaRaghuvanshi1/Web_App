@@ -9,7 +9,7 @@
       "install": {
         "runtime-versions": {
           "python": 3.8,
-          "nodejs": 20
+          "nodejs": 16
         },
         "commands": [
           "pip3 install --upgrade aws-sam-cli"
@@ -19,7 +19,7 @@
         "commands": [
           "npm i -g recursive-install",
           "npm-recursive-install --rootDir=src",
-          "cd src/books/create",
+          "cd src/create",
           "npm test",
           "cd ../get-all",
           "npm test"
