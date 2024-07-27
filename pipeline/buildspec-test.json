@@ -6,7 +6,7 @@
           "nodejs": 20
         },
         "commands": [
-          "cd src/books/tests",
+          "cd src/tests",
           "npm ci"
         ]
       },
