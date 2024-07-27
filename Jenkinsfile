@@ -22,7 +22,7 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
-                    sh "npm cache clean --force"
+                    sh "npm view aws-sdk versions"
                     sh "npm i -g recursive-install"
                     sh "npm-recursive-install --rootDir=src"
                     dir("src/create") {
