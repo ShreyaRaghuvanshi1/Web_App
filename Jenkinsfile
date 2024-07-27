@@ -7,7 +7,7 @@ pipeline {
 
     parameters {
         choice(name: 'DEPLOY_STAGE', choices: ['staging', 'production'], description: 'Select the deployment stage')
-        string(name: 'ARTIFACTS_BUCKET', defaultValue: 'my-artifacts-bucket', description: 'Enter the S3 bucket for artifacts')
+        string(name: 'ARTIFACTS_BUCKET', defaultValue: 'bucketl00179092', description: 'Enter the S3 bucket for artifacts')
         string(name: 'ARTIFACTS_PREFIX', defaultValue: 'my-prefix', description: 'Enter the S3 prefix for artifacts')
     }
 
@@ -22,6 +22,7 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
+                    sh "npm cache clean --force"
                     sh "npm i -g recursive-install"
                     sh "npm-recursive-install --rootDir=src"
                     dir("src/create") {
