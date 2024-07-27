@@ -70,7 +70,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub '${Stage}-books-get-all'
-      CodeUri: ./src/books/get-all/
+      CodeUri: ./src/get-all/
       Handler: index.handler
       AutoPublishAlias: !Ref Stage
       DeploymentPreference:
@@ -96,7 +96,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub '${Stage}-books-create'
-      CodeUri: ./src/books/create/
+      CodeUri: ./src/create/
       Handler: index.handler
       AutoPublishAlias: !Ref Stage
       DeploymentPreference:
@@ -190,7 +190,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub '${Stage}-books-create-pre-traffic-check'
-      CodeUri: ./src/books/create-pre-traffic/
+      CodeUri: ./src/create-pre-traffic/
       Handler: index.handler
       Environment:
         Variables:
