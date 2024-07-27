@@ -1,33 +1,27 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
+// index.js
 
-import { APIGatewayProxyResult } from 'aws-lambda';
-import * as AWSCore from 'aws-sdk';
-import * as AWSXRay from 'aws-xray-sdk-core';
- 
-let AWS;
+const AWS = require('aws-sdk');
+const AWSXRay = require('aws-xray-sdk-core');
 
-const ddbOptions: AWSCore.DynamoDB.Types.ClientConfiguration = {
+let ddbOptions = {
   apiVersion: '2012-08-10'
 };
 
-// https://github.com/awslabs/aws-sam-cli/issues/217
 if (process.env.AWS_SAM_LOCAL) {
-  AWS = AWSCore;
-  ddbOptions.endpoint = 'http://dynamodb:8000';
+  AWS.config.update({ endpoint: 'http://dynamodb:8000' });
 } else {
-  AWS = AWSXRay.captureAWS(AWSCore);
+  AWSXRay.captureAWS(AWS);
 }
 
-async function handler(event: any): Promise<APIGatewayProxyResult> {
-  let response: APIGatewayProxyResult;
+async function handler(event) {
+  let response;
   try {
     const client = new AWS.DynamoDB(ddbOptions);
 
     const book = JSON.parse(event.body);
     const { isbn, title, year, author, publisher, rating, pages } = book;
 
-    const params: AWS.DynamoDB.Types.PutItemInput = {
+    const params = {
       TableName: process.env.TABLE || 'books',
       Item: {
         isbn: { S: isbn },
@@ -39,22 +33,22 @@ async function handler(event: any): Promise<APIGatewayProxyResult> {
         pages: { N: pages.toString() }
       }
     };
+
     await client.putItem(params).promise();
 
     response = {
       statusCode: 201,
       headers: { 'Content-Type': 'application/json' },
-      body: ''
+      body: JSON.stringify({ message: 'Book added successfully' })
     };
-
-  } catch (e) {
+  } catch (error) {
     response = {
       statusCode: 500,
-      headers: {},
-      body: ''
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Could not add book', details: error.message })
     };
   }
   return response;
 }
 
-export { handler };
+module.exports = { handler };
